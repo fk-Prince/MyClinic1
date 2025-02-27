@@ -66,14 +66,12 @@ namespace ClinicSystem.Main
                 MySqlDataReader reader = cmd.ExecuteReader();
                 if (reader.HasRows)
                 {
-                    // isExist.Image = Image.FromFile("C:/Users/princ/OneDrive/Desktop/errorx.png");
                     isExist.Image = Properties.Resources.errorx;
                     isExist.Visible = true;
                     isDuplicateName = true;
                 }
                 else
                 {
-                    //isExist.Image = Image.FromFile("C:/Users/princ/OneDrive/Desktop/checked.png");
                     isExist.Image = Properties.Resources.valid;
                     isExist.Visible = true;
                     isDuplicateName = false;
@@ -137,7 +135,9 @@ namespace ClinicSystem.Main
                 cmd.ExecuteNonQuery();
 
 
-                MessageBox.Show("Operation Added","Success",MessageBoxButtons.OK,MessageBoxIcon.Information);
+                MessageBox.Show("Operation Added", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                int idx = operation.getID() + 1;
+                OperationID.Text = idx.ToString();
                 resetFields();
                 conn.Close();
             }
@@ -151,6 +151,8 @@ namespace ClinicSystem.Main
         {
             OperationName.Text = "";
             OperationPrice.Text = "";
+            isPriceValid.Visible = false;
+            isExist.Visible = false;
             OperationDescription.Text = "";
         }
 
