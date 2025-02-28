@@ -39,13 +39,25 @@ namespace ClinicSystem
         private void button3_Click(object sender, EventArgs e)
         {
             clinicSystem.buttonIsClicked(clinicSystem.OperationB);
-            clinicSystem.loadForm(new OperationForm(clinicSystem, frontDesk));
+            clinicSystem.loadForm(new OperationForm(frontDesk));
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             clinicSystem.buttonIsClicked(clinicSystem.OperationB);
-            clinicSystem.loadForm(new OperationForm(clinicSystem, frontDesk));
+            clinicSystem.loadForm(new OperationForm( frontDesk));
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            clinicSystem.buttonIsClicked(clinicSystem.ViewPatients);
+            clinicSystem.loadForm(new ViewPatientsForm(frontDesk));
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            clinicSystem.buttonIsClicked(clinicSystem.ViewPatients);
+            clinicSystem.loadForm(new ViewPatientsForm(frontDesk));
         }
     }
 }

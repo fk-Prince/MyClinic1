@@ -179,10 +179,10 @@ namespace ClinicSystem.Main
             }
 
             int id = int.Parse(OperationID.Text);
-            string name = OperationName.Text;
+            string name = OperationName.Text.Trim();
             DateTime dateAdded = DateTime.Now.Date;
-            string description = OperationDescription.Text;
-            price = double.Parse(OperationPrice.Text);
+            string description = OperationDescription.Text.Trim();
+            price = double.Parse(OperationPrice.Text.Trim());
 
 
 

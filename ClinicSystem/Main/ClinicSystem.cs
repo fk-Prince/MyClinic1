@@ -108,7 +108,13 @@ namespace ClinicSystem
         private void Services_Click(object sender, EventArgs e)
         {
             buttonIsClicked(OperationB);
-            loadForm(new OperationForm(this, frontdesk));
+            loadForm(new OperationForm( frontdesk));
+        }
+
+        private void ViewPatients_Click(object sender, EventArgs e)
+        {
+            buttonIsClicked(ViewPatients);
+            loadForm(new ViewPatientsForm(frontdesk));
         }
     }
 }

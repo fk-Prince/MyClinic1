@@ -74,6 +74,7 @@
             this.ViewPatients.TabIndex = 3;
             this.ViewPatients.Text = "View Patients";
             this.ViewPatients.UseVisualStyleBackColor = false;
+            this.ViewPatients.Click += new System.EventHandler(this.ViewPatients_Click);
             // 
             // OperationB
             // 

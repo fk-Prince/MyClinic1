@@ -13,11 +13,9 @@ namespace ClinicSystem.Main
 {
     public partial class OperationForm : Form
     {
-        private ClinicSystem clinicSystem;
         private FrontDesk frontDesk;
-        public OperationForm(ClinicSystem clinicSystem, FrontDesk frontDesk)
+        public OperationForm( FrontDesk frontDesk)
         {
-            this.clinicSystem = clinicSystem;
             this.frontDesk = frontDesk;
             InitializeComponent();
 
