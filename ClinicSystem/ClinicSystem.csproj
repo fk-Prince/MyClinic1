@@ -98,6 +98,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LoginForm\DoctorLoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LoginForm\DoctorLoginForm.Designer.cs">
+      <DependentUpon>DoctorLoginForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Operation\AddOperation.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -140,6 +146,9 @@
     <Compile Include="AddPatient\RegisterPatient.Designer.cs">
       <DependentUpon>RegisterPatient.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="LoginForm\DoctorLoginForm.resx">
+      <DependentUpon>DoctorLoginForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Operation\AddOperation.resx">
       <DependentUpon>AddOperation.cs</DependentUpon>
     </EmbeddedResource>

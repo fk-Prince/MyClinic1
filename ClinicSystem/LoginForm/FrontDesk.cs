@@ -6,7 +6,6 @@ namespace ClinicSystem
     {
         private string username;
         private string password;
-
         private int id;
         
         public FrontDesk(string username, string password,int id)

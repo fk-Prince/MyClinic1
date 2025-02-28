@@ -9,60 +9,77 @@ namespace ClinicSystem
     public class Doctor
     {
 
-        private int doctorID;
-        private string doctorFirstName;
-        private string doctorMiddleName;
-        private string doctorLastName;
-        private int age;
-        private DateTime dateHired;
-        private string password;
-        private int operationid;
+        private int doctorId;
+        private int operationCode;
+        private string doctorFName;
+        private string doctorMName;
+        private string doctorLName;
+        private int doctorAge;
+        private string doctorAddress;
+        private string doctorGender;
+        private long doctorContactNumber;
+        private DateTime doctorDateHired;
+        private string doctorPIN;
 
-        public Doctor(int doctorID, string doctorFirstName, string doctorMiddleName, string doctorLastName, int age, DateTime dateHired, string password, int operationid)
+        public Doctor(int doctorId, int operationCode, string doctorFName, string doctorMName, string doctorLName, int doctorAge, string doctorAddress, string doctorGender, long doctorContactNumber, DateTime doctorDateHired, string doctorPIN)
         {
-            this.doctorID = doctorID;
-            this.doctorFirstName = doctorFirstName;
-            this.doctorMiddleName = doctorMiddleName;
-            this.doctorLastName = doctorLastName;
-            this.age = age;
-            this.dateHired = dateHired.Date;
-            this.password = password;
-            this.operationid = operationid;
+            this.doctorId = doctorId;
+            this.operationCode = operationCode;
+            this.doctorFName = doctorFName;
+            this.doctorMName = doctorMName;
+            this.doctorLName = doctorLName;
+            this.doctorAge = doctorAge;
+            this.doctorAddress = doctorAddress;
+            this.doctorGender = doctorGender;
+            this.doctorContactNumber = doctorContactNumber;
+            this.doctorDateHired = doctorDateHired.Date;
+            this.doctorPIN = doctorPIN;
         }
 
         public int getDoctorID()
         {
-            return doctorID;
+            return doctorId;
+        }
+        public int getOperationCode()
+        {
+            return operationCode;
+        }
+        public string getDoctorFName()
+        {
+            return doctorFName;
+        }
+        public string getDoctorMName()
+        {
+            return doctorMName;
+        }
+        public string getDoctorLName()
+        {
+            return doctorLName;
+        }
+        public int getDoctorAge()
+        {
+            return doctorAge;
+        }
+        public string getDoctorAddress()
+        {
+            return doctorAddress;
+        }
+        public string getDoctorGender()
+        {
+            return doctorGender;
+        }
+        public long getDoctorContactNumber()
+        {
+            return doctorContactNumber;
+        }
+        public DateTime getDoctorDateHired()
+        {
+            return doctorDateHired;
+        }
+        public string getDoctorPIN()
+        {
+            return doctorPIN;
         }
 
-        public string getDoctorFirstName()
-        {
-            return doctorFirstName;
-        }
-        public string getDoctorMiddleName()
-        {
-            return doctorMiddleName;
-        }
-
-        public string getDoctorLastName()
-        {
-            return doctorLastName;
-        }
-        public int getAge()
-        {
-            return age;
-        }   
-        public DateTime getDateHired()
-        {
-            return dateHired;
-        }   
-        public string getPassword()
-        {
-            return password;
-        }
-        public int getOperationID()
-        {
-            return operationid;
-        }
     }
 }

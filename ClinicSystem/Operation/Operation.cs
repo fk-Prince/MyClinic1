@@ -8,7 +8,7 @@ namespace ClinicSystem.Main
 {
     public class Operation
     {
-        private int id;
+        private int code;
         private string name;
         private DateTime dateAdded;
         private double price;
@@ -16,16 +16,16 @@ namespace ClinicSystem.Main
 
         public Operation(int code, string name, DateTime dateAdded, double price, string description)
         {
-            this.id = code;
+            this.code = code;
             this.name = name;
             this.dateAdded = dateAdded.Date;
             this.price = price;
             this.description = description;
         }
 
-        public int getID()
+        public int getCode()
         {
-            return id;
+            return code;
         }
         public string getName()
         {

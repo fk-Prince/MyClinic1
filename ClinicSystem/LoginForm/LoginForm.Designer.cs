@@ -45,6 +45,7 @@ namespace ClinicSystem
             this.panel2 = new System.Windows.Forms.Panel();
             this.UsernameL = new System.Windows.Forms.Label();
             this.Username = new System.Windows.Forms.TextBox();
+            this.Doctor = new System.Windows.Forms.Button();
             this.loginPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.panel3.SuspendLayout();
@@ -56,6 +57,7 @@ namespace ClinicSystem
             // loginPanel
             // 
             this.loginPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(160)))), ((int)(((byte)(160)))));
+            this.loginPanel.Controls.Add(this.Doctor);
             this.loginPanel.Controls.Add(this.label3);
             this.loginPanel.Controls.Add(this.pictureBox3);
             this.loginPanel.Controls.Add(this.label2);
@@ -204,6 +206,16 @@ namespace ClinicSystem
             this.Username.Size = new System.Drawing.Size(208, 13);
             this.Username.TabIndex = 0;
             // 
+            // Doctor
+            // 
+            this.Doctor.Location = new System.Drawing.Point(122, 481);
+            this.Doctor.Name = "Doctor";
+            this.Doctor.Size = new System.Drawing.Size(75, 23);
+            this.Doctor.TabIndex = 8;
+            this.Doctor.Text = "button1";
+            this.Doctor.UseVisualStyleBackColor = true;
+            this.Doctor.Click += new System.EventHandler(this.Doctor_Click);
+            // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -245,6 +257,7 @@ namespace ClinicSystem
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button Doctor;
     }
 }
 

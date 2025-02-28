@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
-
+using ClinicSystem.LoginForm;
 using MySql.Data.MySqlClient;
 
 namespace ClinicSystem
@@ -24,18 +24,18 @@ namespace ClinicSystem
         {
             string username = Username.Text.Trim();
             string password = Password.Text.Trim();
-           
+
             try
             {
-               
-                string driver = "server=localhost;username=root;password=root;database=clinicdatabase"; 
+
+                string driver = "server=localhost;username=root;password=root;database=clinicdb";
                 MySqlConnection conn = new MySqlConnection(driver);
                 conn.Open();
 
-                string query = "SELECT Username, Password, FrontDeskID FROM FRONTDESK_TBL WHERE USERNAME = @USERNAME AND PASSWORD = @PASSWORD";
+                string query = "SELECT Username, Password, FrontDeskID FROM FRONTDESK WHERE USERNAME = @USERNAME AND PASSWORD = @PASSWORD";
                 MySqlCommand command = new MySqlCommand(query, conn);
 
-                command.Parameters.AddWithValue("@USERNAME", username); 
+                command.Parameters.AddWithValue("@USERNAME", username);
                 command.Parameters.AddWithValue("@PASSWORD", password);
 
                 MySqlDataReader reader = command.ExecuteReader();
@@ -47,7 +47,7 @@ namespace ClinicSystem
                 while (reader.Read())
                 {
                     FrontDesk frontDesk = new FrontDesk(reader["Username"].ToString(), reader["Password"].ToString(), int.Parse(reader["FrontDeskID"].ToString()));
-                    MessageBox.Show("Login Successful");
+                    MessageBox.Show("Successfully Login", "Login Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.Hide();
                     ClinicSystem clinicSystem = new ClinicSystem(frontDesk);
                     clinicSystem.Show();
@@ -58,6 +58,12 @@ namespace ClinicSystem
                 MessageBox.Show(ex.Message);
             }
 
+        }
+
+        private void Doctor_Click(object sender, EventArgs e)
+        {
+            DoctorLoginForm doctorLoginForm = new DoctorLoginForm();
+            doctorLoginForm.Show();
         }
     }
 

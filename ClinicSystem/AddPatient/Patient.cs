@@ -2,85 +2,105 @@
 
 namespace ClinicSystem
 {
-    internal class Patient
+    public class Patient
     {
-        private string firstName;
-        private string middleName;
-        private string lastName;
+        private int roomNo;
+        private int frontdeskId;
+        private int doctorIds;
+        private int operationCode;
+        private string fname;
+        private string mname;
+        private string lname;
+        private int age;
         private string address;
         private string gender;
-        private int age;
-        private DateTime birthDate;
-        private int contactNumber;
-        private DateTime dateAdmitted;
         private string condition;
-        private int operationid;
-        private string doctorAssigned;
-        private string medicalHistory;
+        private DateTime birthDate;
+        private DateTime dateAdmitted;
+        private long ContactNumber;
         private double bill;
 
-        public Patient(string firstName, string middleName, string lastName, string address, string gender, int age, DateTime birthDate, int contactNumber, DateTime dateAdmitted, string condition, int operationid, string doctorAssigned, string medicalHistory, double bill)
+        public Patient(int roomNo, int frontdeskId, int doctorId, int operationCode, string fname, string mname, string lname, int age, string address, string gender, string condition, DateTime birthDate, DateTime dateAdmitted, long contactNumber, double bill)
         {
-            this.firstName = firstName;
-            this.middleName = middleName;
-            this.lastName = lastName;
+            this.roomNo = roomNo;
+            this.frontdeskId = frontdeskId;
+            this.doctorIds = doctorId;
+            this.operationCode = operationCode;
+            this.fname = fname;
+            this.mname = mname;
+            this.lname = lname;
+            this.age = age;
             this.address = address;
             this.gender = gender;
-            this.age = age;
-            this.birthDate = birthDate.Date;
-            this.contactNumber = contactNumber;
-            this.dateAdmitted = dateAdmitted.Date;
             this.condition = condition;
-            this.operationid = operationid;
-            this.doctorAssigned = doctorAssigned;
-            this.medicalHistory = medicalHistory;
+            this.birthDate = birthDate;
+            this.dateAdmitted = dateAdmitted;
+            ContactNumber = contactNumber;
             this.bill = bill;
         }
 
-        public string getFirstName() { return firstName; }
-        public string getMiddleName() { return middleName; }
-        public string getLastName() { return lastName; }
-        public string getAddress() { return address; }
-        public string getGender()
+        public int getRoomNo()
         {
-            return gender;
+            return roomNo;
         }
+        public int getFrontdeskId()
+        {
+            return frontdeskId;
+        }
+        public int doctorId()
+        {
+            return doctorIds;
+        }
+        public int getOperationCode()
+        {
+            return operationCode;
+        }
+
         public int getAge()
         {
             return age;
+        }
+        public String getAddress()
+        {
+            return address;
+        }
+        public String getGender()
+        {
+            return gender;
+        }
+        public String getCondition()
+        {
+            return condition;
         }
         public DateTime getBirthDate()
         {
             return birthDate;
         }
-        public int getContactNumber()
-        {
-            return contactNumber;
-        }
         public DateTime getDateAdmitted()
         {
             return dateAdmitted;
         }
-        public string getCondition()
+        public long getContactNumber()
         {
-            return condition;
-        }
-        public int getOperationID()
-        {
-            return operationid;
-        }
-        public string getDoctorAssigned()
-        {
-            return doctorAssigned;
-        }
-        public string getMedicalHistory()
-        {
-            return medicalHistory;
+            return ContactNumber;
         }
         public double getBill()
         {
             return bill;
         }
+        public String getFname()
+        {
+            return fname;
+        }
+        public String getMname()
+        {
+            return mname;
+        }
+        public String getLname()
+        {
+            return lname;
+        }
+
 
     }
 }

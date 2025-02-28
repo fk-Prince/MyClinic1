@@ -1,15 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Net.NetworkInformation;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using ClinicSystem.Properties;
-using System.Xml.Linq;
 using MySql.Data.MySqlClient;
 
 namespace ClinicSystem.Main
@@ -24,10 +14,10 @@ namespace ClinicSystem.Main
             InitializeComponent();
             getLastID();
 
-            OperationName.LostFocus += Name_LostFocus;
-            OperationPrice.LostFocus += Price_LostFocus;
+            OperationName.Leave += Name_Leave;
+            OperationPrice.Leave += Price_Leave;
         }
-        private void Price_LostFocus(object sender, EventArgs e)
+        private void Price_Leave(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(OperationPrice.Text))
             {
@@ -46,21 +36,21 @@ namespace ClinicSystem.Main
                 isPriceValid.Visible = true;
             }
         }
-        private void Name_LostFocus(object sender, EventArgs e)
+        private void Name_Leave(object sender, EventArgs e)
         {
             try
             {
                 string name = OperationName.Text.Trim();
-                if (string.IsNullOrWhiteSpace(name))
+                if (string.IsNullOrWhiteSpace(OperationName.Text))
                 {
                     isExist.Visible = false;
                     return;
                 }
-                string driver = "server=localhost;username=root;pwd=root;database=clinicdatabase";
+                string driver = "server=localhost;username=root;pwd=root;database=clinicdb";
                 MySqlConnection conn = new MySqlConnection(driver);
                 conn.Open();
 
-                string query = "SELECT OperationName FROM ClinicOperation_tbl WHERE OperationName = @OperationName";
+                string query = "SELECT OperationName FROM operations WHERE OperationName = @OperationName";
                 MySqlCommand cmd = new MySqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@OperationName", name);
                 MySqlDataReader reader = cmd.ExecuteReader();
@@ -87,15 +77,15 @@ namespace ClinicSystem.Main
         {
             try
             {
-                string driver = "server=localhost;username=root;pwd=root;database=clinicdatabase";
+                string driver = "server=localhost;username=root;pwd=root;database=clinicdb";
                 MySqlConnection conn = new MySqlConnection(driver);
                 conn.Open();
-                string query = "SELECT OperationID FROM ClinicOperation_tbl ORDER BY OperationID DESC LIMIT 1";
+                string query = "SELECT OperationCode FROM operations ORDER BY OperationCode DESC LIMIT 1";
                 MySqlCommand cmd = new MySqlCommand(query, conn);
                 MySqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read()) {
-                    int operationId = int.Parse(reader["OperationID"].ToString()) + 1;
-                    OperationID.Text = operationId.ToString();
+                    int operatonCode = int.Parse(reader["OperationCode"].ToString()) + 1;
+                    OperationID.Text = operatonCode.ToString();
                 }
                 conn.Close();
             }
@@ -112,31 +102,38 @@ namespace ClinicSystem.Main
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if (frontDesk == null)
+            {
+                MessageBox.Show("This user is not permitted to add operation !!", "Permission", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             try
             {
+
+
                 Operation operation = getInputs();
                 if (operation == null) return;
 
-                string driver = "server=localhost;username=root;pwd=root;database=clinicdatabase";
+                string driver = "server=localhost;username=root;pwd=root;database=clinicdb";
                 MySqlConnection conn = new MySqlConnection(driver);
                 conn.Open();
-                string query = "INSERT INTO ClinicOperation_tbl(OperationID, FrontDeskID, OperationName, `Date-Added`, Price, OperationDescription) " +
-                    "VALUES (@OperationID, @FrontDeskID, @OperationName, @DateAdded, @Price, @OperationDescription)";
+                string query = "INSERT INTO operations(OperationCode, FrontDeskID, OperationName, DateAdded, Price, Description) " +
+                    "VALUES (@OperationCode, @FrontDeskID, @OperationName, @DateAdded, @Price, @Description)";
 
     
                 MySqlCommand cmd = new MySqlCommand(query, conn);
 
-                cmd.Parameters.AddWithValue("@OperationID", operation.getID());
+                cmd.Parameters.AddWithValue("@OperationCode", operation.getCode());
                 cmd.Parameters.AddWithValue("@FrontDeskID", frontDesk.getId());
                 cmd.Parameters.AddWithValue("@OperationName", operation.getName());
                 cmd.Parameters.AddWithValue("@DateAdded", operation.getDateAdded().ToString("yyyy-MM-dd"));  
                 cmd.Parameters.AddWithValue("@Price", operation.getPrice());
-                cmd.Parameters.AddWithValue("@OperationDescription", operation.getDescription());
+                cmd.Parameters.AddWithValue("@Description", operation.getDescription());
                 cmd.ExecuteNonQuery();
 
 
                 MessageBox.Show("Operation Added", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                int idx = operation.getID() + 1;
+                int idx = operation.getCode() + 1;
                 OperationID.Text = idx.ToString();
                 resetFields();
                 conn.Close();

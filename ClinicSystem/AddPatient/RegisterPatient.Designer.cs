@@ -75,14 +75,14 @@
             this.panel21 = new System.Windows.Forms.Panel();
             this.ComboDoctor = new System.Windows.Forms.ComboBox();
             this.label12 = new System.Windows.Forms.Label();
-            this.panel23 = new System.Windows.Forms.Panel();
-            this.MedicalHistory = new System.Windows.Forms.TextBox();
-            this.label13 = new System.Windows.Forms.Label();
             this.panel24 = new System.Windows.Forms.Panel();
             this.panel25 = new System.Windows.Forms.Panel();
             this.Bill = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
             this.RegisterButton = new System.Windows.Forms.Button();
+            this.panel20 = new System.Windows.Forms.Panel();
+            this.label13 = new System.Windows.Forms.Label();
+            this.ComboRoomNo = new System.Windows.Forms.ComboBox();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -95,8 +95,8 @@
             this.panel18.SuspendLayout();
             this.panel19.SuspendLayout();
             this.panel21.SuspendLayout();
-            this.panel23.SuspendLayout();
             this.panel24.SuspendLayout();
+            this.panel20.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -104,7 +104,7 @@
             this.panel1.Controls.Add(this.panel2);
             this.panel1.Controls.Add(this.FirstName);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(71, 72);
+            this.panel1.Location = new System.Drawing.Point(71, 147);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(230, 60);
             this.panel1.TabIndex = 0;
@@ -139,7 +139,7 @@
             this.panel3.Controls.Add(this.panel4);
             this.panel3.Controls.Add(this.MiddleName);
             this.panel3.Controls.Add(this.label2);
-            this.panel3.Location = new System.Drawing.Point(400, 72);
+            this.panel3.Location = new System.Drawing.Point(400, 147);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(230, 60);
             this.panel3.TabIndex = 2;
@@ -174,7 +174,7 @@
             this.panel5.Controls.Add(this.panel6);
             this.panel5.Controls.Add(this.LastName);
             this.panel5.Controls.Add(this.label3);
-            this.panel5.Location = new System.Drawing.Point(736, 72);
+            this.panel5.Location = new System.Drawing.Point(736, 147);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(230, 60);
             this.panel5.TabIndex = 3;
@@ -209,7 +209,7 @@
             this.panel7.Controls.Add(this.panel8);
             this.panel7.Controls.Add(this.Address);
             this.panel7.Controls.Add(this.label4);
-            this.panel7.Location = new System.Drawing.Point(71, 163);
+            this.panel7.Location = new System.Drawing.Point(71, 238);
             this.panel7.Name = "panel7";
             this.panel7.Size = new System.Drawing.Size(559, 60);
             this.panel7.TabIndex = 2;
@@ -244,7 +244,7 @@
             this.panel9.Controls.Add(this.RadioFemale);
             this.panel9.Controls.Add(this.RadioMale);
             this.panel9.Controls.Add(this.label5);
-            this.panel9.Location = new System.Drawing.Point(736, 163);
+            this.panel9.Location = new System.Drawing.Point(736, 238);
             this.panel9.Name = "panel9";
             this.panel9.Size = new System.Drawing.Size(230, 60);
             this.panel9.TabIndex = 2;
@@ -285,7 +285,7 @@
             this.panel10.Controls.Add(this.panel11);
             this.panel10.Controls.Add(this.ContactNumber);
             this.panel10.Controls.Add(this.label6);
-            this.panel10.Location = new System.Drawing.Point(400, 264);
+            this.panel10.Location = new System.Drawing.Point(400, 339);
             this.panel10.Name = "panel10";
             this.panel10.Size = new System.Drawing.Size(230, 60);
             this.panel10.TabIndex = 2;
@@ -322,7 +322,7 @@
             this.panel12.Controls.Add(this.panel13);
             this.panel12.Controls.Add(this.Birthdate);
             this.panel12.Controls.Add(this.label7);
-            this.panel12.Location = new System.Drawing.Point(205, 264);
+            this.panel12.Location = new System.Drawing.Point(205, 339);
             this.panel12.Name = "panel12";
             this.panel12.Size = new System.Drawing.Size(161, 60);
             this.panel12.TabIndex = 3;
@@ -378,7 +378,7 @@
             this.panel14.Controls.Add(this.panel15);
             this.panel14.Controls.Add(this.Age);
             this.panel14.Controls.Add(this.label8);
-            this.panel14.Location = new System.Drawing.Point(71, 264);
+            this.panel14.Location = new System.Drawing.Point(71, 339);
             this.panel14.Name = "panel14";
             this.panel14.Size = new System.Drawing.Size(84, 60);
             this.panel14.TabIndex = 4;
@@ -414,7 +414,7 @@
             this.panel16.Controls.Add(this.panel17);
             this.panel16.Controls.Add(this.DateAdmitted);
             this.panel16.Controls.Add(this.label9);
-            this.panel16.Location = new System.Drawing.Point(736, 264);
+            this.panel16.Location = new System.Drawing.Point(736, 339);
             this.panel16.Name = "panel16";
             this.panel16.Size = new System.Drawing.Size(230, 60);
             this.panel16.TabIndex = 3;
@@ -450,9 +450,9 @@
             // 
             this.panel18.Controls.Add(this.PatientCondition);
             this.panel18.Controls.Add(this.C);
-            this.panel18.Location = new System.Drawing.Point(71, 371);
+            this.panel18.Location = new System.Drawing.Point(71, 458);
             this.panel18.Name = "panel18";
-            this.panel18.Size = new System.Drawing.Size(295, 200);
+            this.panel18.Size = new System.Drawing.Size(295, 113);
             this.panel18.TabIndex = 5;
             // 
             // PatientCondition
@@ -461,7 +461,7 @@
             this.PatientCondition.Location = new System.Drawing.Point(0, 21);
             this.PatientCondition.Multiline = true;
             this.PatientCondition.Name = "PatientCondition";
-            this.PatientCondition.Size = new System.Drawing.Size(295, 179);
+            this.PatientCondition.Size = new System.Drawing.Size(295, 92);
             this.PatientCondition.TabIndex = 2;
             // 
             // C
@@ -477,7 +477,7 @@
             // 
             this.panel19.Controls.Add(this.ComboOperation);
             this.panel19.Controls.Add(this.label11);
-            this.panel19.Location = new System.Drawing.Point(400, 371);
+            this.panel19.Location = new System.Drawing.Point(406, 458);
             this.panel19.Name = "panel19";
             this.panel19.Size = new System.Drawing.Size(230, 60);
             this.panel19.TabIndex = 4;
@@ -505,7 +505,7 @@
             // 
             this.panel21.Controls.Add(this.ComboDoctor);
             this.panel21.Controls.Add(this.label12);
-            this.panel21.Location = new System.Drawing.Point(736, 371);
+            this.panel21.Location = new System.Drawing.Point(736, 458);
             this.panel21.Name = "panel21";
             this.panel21.Size = new System.Drawing.Size(230, 60);
             this.panel21.TabIndex = 4;
@@ -528,33 +528,6 @@
             this.label12.Size = new System.Drawing.Size(85, 13);
             this.label12.TabIndex = 0;
             this.label12.Text = "Doctor Assigned";
-            // 
-            // panel23
-            // 
-            this.panel23.Controls.Add(this.MedicalHistory);
-            this.panel23.Controls.Add(this.label13);
-            this.panel23.Location = new System.Drawing.Point(400, 455);
-            this.panel23.Name = "panel23";
-            this.panel23.Size = new System.Drawing.Size(566, 117);
-            this.panel23.TabIndex = 6;
-            // 
-            // MedicalHistory
-            // 
-            this.MedicalHistory.BackColor = System.Drawing.Color.White;
-            this.MedicalHistory.Location = new System.Drawing.Point(0, 21);
-            this.MedicalHistory.Multiline = true;
-            this.MedicalHistory.Name = "MedicalHistory";
-            this.MedicalHistory.Size = new System.Drawing.Size(566, 95);
-            this.MedicalHistory.TabIndex = 2;
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(3, 4);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(79, 13);
-            this.label13.TabIndex = 1;
-            this.label13.Text = "Medical History";
             // 
             // panel24
             // 
@@ -606,15 +579,42 @@
             this.RegisterButton.UseVisualStyleBackColor = false;
             this.RegisterButton.Click += new System.EventHandler(this.button1_Click);
             // 
+            // panel20
+            // 
+            this.panel20.Controls.Add(this.ComboRoomNo);
+            this.panel20.Controls.Add(this.label13);
+            this.panel20.Location = new System.Drawing.Point(71, 77);
+            this.panel20.Name = "panel20";
+            this.panel20.Size = new System.Drawing.Size(156, 30);
+            this.panel20.TabIndex = 9;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(7, 9);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(55, 13);
+            this.label13.TabIndex = 0;
+            this.label13.Text = "Room No.";
+            // 
+            // ComboRoomNo
+            // 
+            this.ComboRoomNo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ComboRoomNo.FormattingEnabled = true;
+            this.ComboRoomNo.Location = new System.Drawing.Point(66, 5);
+            this.ComboRoomNo.Name = "ComboRoomNo";
+            this.ComboRoomNo.Size = new System.Drawing.Size(87, 21);
+            this.ComboRoomNo.TabIndex = 1;
+            // 
             // RegisterPatient
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1041, 651);
+            this.Controls.Add(this.panel20);
             this.Controls.Add(this.RegisterButton);
             this.Controls.Add(this.panel24);
-            this.Controls.Add(this.panel23);
             this.Controls.Add(this.panel21);
             this.Controls.Add(this.panel19);
             this.Controls.Add(this.panel18);
@@ -654,10 +654,10 @@
             this.panel19.PerformLayout();
             this.panel21.ResumeLayout(false);
             this.panel21.PerformLayout();
-            this.panel23.ResumeLayout(false);
-            this.panel23.PerformLayout();
             this.panel24.ResumeLayout(false);
             this.panel24.PerformLayout();
+            this.panel20.ResumeLayout(false);
+            this.panel20.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -707,9 +707,6 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Panel panel21;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Panel panel23;
-        private System.Windows.Forms.TextBox MedicalHistory;
-        private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Panel panel24;
         private System.Windows.Forms.Panel panel25;
         private System.Windows.Forms.TextBox Bill;
@@ -719,5 +716,8 @@
         private System.Windows.Forms.ComboBox ComboDoctor;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Panel panel20;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.ComboBox ComboRoomNo;
     }
 }

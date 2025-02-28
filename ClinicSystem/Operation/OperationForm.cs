@@ -21,7 +21,7 @@ namespace ClinicSystem.Main
             this.frontDesk = frontDesk;
             InitializeComponent();
 
-            getServices("SELECT * FROM ClinicOperation_tbl", null);
+            getServices("SELECT * FROM operations", null);
         }
 
         private void getServices(string query,string searchOperation)
@@ -29,23 +29,14 @@ namespace ClinicSystem.Main
             try
             {
                 FlowPanel.Controls.Clear();
-                string driver = "server=localhost;username=root;password=root;database=clinicdatabase";
+                string driver = "server=localhost;username=root;password=root;database=clinicdb";
                 MySqlConnection conn = new MySqlConnection(driver);
                 conn.Open();
 
                 MySqlCommand cmd = new MySqlCommand(query, conn);
-                //if (int.TryParse(searchOperation, out int doctorId) && !string.IsNullOrEmpty(searchOperation))
-                //{
-                //    cmd.Parameters.AddWithValue("@OperationID", doctorId + "%");
-                //}
-                //else if (!string.IsNullOrEmpty(searchOperation))
-                //{
-                //    cmd.Parameters.AddWithValue("@OperationName", searchOperation + "%");
-                //}
-
                 if (!string.IsNullOrWhiteSpace(searchOperation))
                 {
-                    cmd.Parameters.AddWithValue("@OperationID", searchOperation + "%");
+                    cmd.Parameters.AddWithValue("@OperationCode", searchOperation + "%");
                     cmd.Parameters.AddWithValue("@OperationName", searchOperation + "%");
                 }
                 MySqlDataReader reader = cmd.ExecuteReader();
@@ -59,7 +50,7 @@ namespace ClinicSystem.Main
                     panel.BorderStyle = BorderStyle.FixedSingle;
 
                     Label operationID = new Label();
-                    operationID.Text = $"Operation ID:  {reader["OperationID"].ToString()}";
+                    operationID.Text = $"Operation Code:  {reader["OperationCode"].ToString()}";
                     operationID.Location = new Point(10, 10);
                     operationID.AutoSize = true;
                     operationID.Font = new Font("Arial", 9, FontStyle.Bold);
@@ -81,7 +72,7 @@ namespace ClinicSystem.Main
                     panel.Controls.Add(operationPrice);
 
                     Label operationDate = new Label();
-                    DateTime date = Convert.ToDateTime(reader["Date-Added"].ToString());
+                    DateTime date = Convert.ToDateTime(reader["DateAdded"].ToString());
                     date = date.Date;
                     operationDate.Text = $"Operation Date-Added: {date.ToString("yyyy-MM-dd")}";
                     operationDate.Location = new Point(10, 70);
@@ -97,7 +88,7 @@ namespace ClinicSystem.Main
                     panel.Controls.Add(operationDescription);
 
                     TextBox textBox = new TextBox();
-                    textBox.Text = reader["OperationDescription"].ToString();
+                    textBox.Text = reader["Description"].ToString();
                     textBox.Multiline = true;
                     textBox.Location = new Point(20, 110);
                     textBox.Size = new Size(350, 75);
@@ -121,20 +112,11 @@ namespace ClinicSystem.Main
             string query = "";
             if (string.IsNullOrWhiteSpace(SearchBox.Text.Trim()))
             {
-                getServices("SELECT * FROM ClinicOperation_tbl", null);
+                getServices("SELECT * FROM operations", null);
             } else
             {
                 string searchbox = SearchBox.Text.Trim();
-
-                query = "SELECT * FROM ClinicOperation_tbl WHERE OperationID LIKE @OperationID OR OperationName LIKE @OPERATIONNAME";
-                //if (int.TryParse(searchbox, out int serviceID))
-                //{
-                //    query = "SELECT * FROM ClinicOperation_tbl WHERE OperationID LIKE @OperationID OR OperationName LIKE @OPERATION";
-                //} else
-                //{
-                //    query = "SELECT * FROM ClinicOperation_tbl WHERE OperationName LIKE @OperationName";
-                //}
-
+                query = "SELECT * FROM operations WHERE OperationCode LIKE @OperationCode OR OperationName LIKE @OPERATIONNAME";
                 getServices(query, searchbox);
             }
 
@@ -149,7 +131,7 @@ namespace ClinicSystem.Main
         private void button1_Click_1(object sender, EventArgs e)
         {
             SearchBox.Text = "";
-            getServices("SELECT * FROM ClinicOperation_tbl", null);
+            getServices("SELECT * FROM operations", null);
         }
     }
 }

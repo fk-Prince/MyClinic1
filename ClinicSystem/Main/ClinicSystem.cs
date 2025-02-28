@@ -88,7 +88,9 @@ namespace ClinicSystem
 
         private void exit_Click(object sender, EventArgs e)
         {
-            Environment.Exit(0);
+            this.Hide();
+            Login loginForm = new Login();
+            loginForm.Show();
         }
 
         private void Dashboard_Click(object sender, EventArgs e)

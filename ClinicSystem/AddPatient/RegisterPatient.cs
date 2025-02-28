@@ -38,6 +38,30 @@ namespace ClinicSystem
             DateAdmitted.Text = date.ToString(date.ToString("yyyy-MM-dd"));
 
             getOperation();
+            getRoomNo();
+        }
+
+        private void getRoomNo()
+        {
+            try
+            {
+                ComboRoomNo.Items.Clear();
+                string driver = "server=localhost;username=root;password=root;database=clinicdb";
+                MySqlConnection conn = new MySqlConnection(driver);
+                conn.Open();
+                string query = "SELECT RoomNo FROM rooms WHERE Occupation != 'Occupied'";
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                MySqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    ComboRoomNo.Items.Add(reader["RoomNo"].ToString());
+                }
+                ComboRoomNo.SelectedIndex = 0;  
+            }
+            catch(MySqlException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void getOperation()
@@ -45,10 +69,10 @@ namespace ClinicSystem
            try
             {
 
-                string driver = "server=localhost;username=root;password=root;database=clinicdatabase";
+                string driver = "server=localhost;username=root;password=root;database=clinicdb";
                 MySqlConnection conn = new MySqlConnection(driver);
                 conn.Open();
-                string query = "SELECT * FROM clinicoperation_tbl";
+                string query = "SELECT * FROM operations";
 
                 MySqlCommand cmd = new MySqlCommand(query, conn);
                 MySqlDataReader reader = cmd.ExecuteReader();
@@ -85,13 +109,13 @@ namespace ClinicSystem
             }
             try
             {
-                int operationid = getOprationId(operationname);
-                string driver = "server=localhost;username=root;password=root;database=clinicdatabase";
+                int operationCode = getOprationId(operationname);
+                string driver = "server=localhost;username=root;password=root;database=clinicdb";
                 MySqlConnection conn = new MySqlConnection(driver);
                 conn.Open();
-                string query = "SELECT * FROM doctor_tbl WHERE OPERATIONID = @OPERATIONID";
+                string query = "SELECT * FROM doctors WHERE OperationCode = @OperationCode";
                 MySqlCommand cmd = new MySqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@OPERATIONID", operationid);
+                cmd.Parameters.AddWithValue("@OperationCode", operationCode);
 
                 MySqlDataReader reader = cmd.ExecuteReader();
                 if (!reader.HasRows)
@@ -105,18 +129,22 @@ namespace ClinicSystem
 
                     while (reader.Read())
                     {
-                        doctorAssigned = new Doctor(
-                           int.Parse(reader["DoctorID"].ToString()),
-                           reader["FirstName"].ToString(),
-                           reader["MiddleName"].ToString(),
-                           reader["LastName"].ToString(),
-                           int.Parse(reader["Age"].ToString()),
-                           DateTime.Parse(reader["Date-Hired"].ToString()),
-                           reader["Password"].ToString(),
-                           int.Parse(reader["OperationID"].ToString())
-                           );
+                        this.doctorAssigned = new Doctor(
+                                int.Parse(reader["DoctorID"].ToString()),
+                                int.Parse(reader["OperationCode"].ToString()),
+                                reader["FirstName"].ToString(),
+                                reader["MiddleName"].ToString(),
+                                reader["LastName"].ToString(),
+                                int.Parse(reader["Age"].ToString()),
+                                reader["Address"].ToString(),
+                                reader["Gender"].ToString(),
+                                long.Parse(reader["ContactNumber"].ToString()),
+                                DateTime.Parse(reader["Date-Hired"].ToString()),
+                                reader["PIN"].ToString()
+                            );
+                     
 
-                        string doctor = reader["DoctorID"] + ",  " + doctorAssigned.getDoctorFirstName() + ", " + doctorAssigned.getDoctorMiddleName() + " " + doctorAssigned.getDoctorLastName();
+                        string doctor = reader["DoctorID"] + "  -  " + doctorAssigned.getDoctorLName() + ", " + doctorAssigned.getDoctorFName() + " " + doctorAssigned.getDoctorMName();
                         ComboDoctor.Items.Add(doctor.ToString());
                     }
                     ComboDoctor.SelectedIndex = 0;
@@ -133,10 +161,10 @@ namespace ClinicSystem
         {
             try
             {
-                string driver = "server=localhost;username=root;pwd=root;database=clinicdatabase";
+                string driver = "server=localhost;username=root;pwd=root;database=clinicdb";
                 MySqlConnection conn = new MySqlConnection(driver);
                 conn.Open();    
-                string qry = "SELECT OperationID, Price FROM clinicoperation_tbl WHERE OperationName = @OperationName";
+                string qry = "SELECT OperationCode, Price FROM operations WHERE OperationName = @OperationName";
                 MySqlCommand command = new MySqlCommand(qry, conn);
                 command.Parameters.AddWithValue("@OperationName", operationname);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -144,7 +172,7 @@ namespace ClinicSystem
                 while (reader.Read())
                 {
                     bill = double.Parse(reader["Price"].ToString());
-                    return int.Parse(reader["operationID"].ToString());
+                    return int.Parse(reader["OperationCode"].ToString());
                 }
             }
             catch (MySqlException ex)
@@ -156,49 +184,53 @@ namespace ClinicSystem
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if (frontDesk == null)
+            {
+                MessageBox.Show("This user is not permitted to add patient !!", "Permission", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             Patient patient = getPatient();
 
             if (patient == null)
-            {
+            {   
                 return;
             }
 
             try
             {
-                string driver = "server=localhost;username=root;pwd=root;database=clinicdatabase";
+                string driver = "server=localhost;username=root;pwd=root;database=clinicdb";
                 MySqlConnection conn = new MySqlConnection(driver);
                 conn.Open();
-
-                string query = "INSERT INTO patient_tbl " +
-                "(FrontDeskID, DoctorID, OperationID, FirstName, MiddleName, LastName, " +
-                "Age, Address, DateAdmitted, PatientCondition, MedicalHistory, Bill, Gender, ContactNumber, BirthDate) " +
-                "VALUES " +
-                "(@FrontDeskID, @DoctorID, @OperationID, @FirstName, @MiddleName, @LastName, " +
-                "@Age, @Address, @DateAdmitted, @PatientCondition, @MedicalHistory, @Bill, " +
-                "@Gender, @ContactNumber, @BirthDate) ";
-
-               
+                string query = "INSERT INTO patients (RoomNo, FrontDeskID, DoctorID, OperationCode, FirstName, MiddleName, LastName, Age," +
+                                    "Address, Gender, PatientCondition, BirthDate, DateAdmitted, ContactNumber, Bill) VALUES (" +
+                                    "@RoomNo, @FrontDeskID, @DoctorID, @OperationCode, @FirstName, @MiddleName, @LastName, @Age, @Address, " +
+                                    "@Gender, @PatientCondition, @BirthDate, @DateAdmitted, @ContactNumber, @Bill)";
 
                 MySqlCommand command = new MySqlCommand(query, conn);
-                command.Parameters.AddWithValue("@FrontDeskID", frontDesk.getId());
-                command.Parameters.AddWithValue("@DoctorID", doctorAssigned.getDoctorID());
-                command.Parameters.AddWithValue("@OperationID", patient.getOperationID());
-                command.Parameters.AddWithValue("@FirstName", patient.getFirstName());
-                command.Parameters.AddWithValue("@MiddleName", patient.getMiddleName());
-                command.Parameters.AddWithValue("@LastName", patient.getLastName());
+                command.Parameters.AddWithValue("@RoomNo", patient.getRoomNo());
+                command.Parameters.AddWithValue("@FrontDeskID", patient.getFrontdeskId());
+                command.Parameters.AddWithValue("@DoctorID", patient.doctorId());
+                command.Parameters.AddWithValue("@OperationCode", patient.getOperationCode());
+                command.Parameters.AddWithValue("@FirstName", patient.getFname());
+                command.Parameters.AddWithValue("@MiddleName", patient.getMname());
+                command.Parameters.AddWithValue("@LastName", patient.getLname());
                 command.Parameters.AddWithValue("@Age", patient.getAge());
                 command.Parameters.AddWithValue("@Address", patient.getAddress());
-                command.Parameters.AddWithValue("@DateAdmitted", patient.getDateAdmitted());
-                command.Parameters.AddWithValue("@PatientCondition", patient.getCondition());
-                command.Parameters.AddWithValue("@MedicalHistory", patient.getMedicalHistory());
-                command.Parameters.AddWithValue("@Bill", patient.getBill());
                 command.Parameters.AddWithValue("@Gender", patient.getGender());
-                command.Parameters.AddWithValue("@ContactNumber", patient.getContactNumber());
+                command.Parameters.AddWithValue("@PatientCondition", patient.getCondition());
                 command.Parameters.AddWithValue("@BirthDate", patient.getBirthDate());
+                command.Parameters.AddWithValue("@DateAdmitted", patient.getDateAdmitted());
+                command.Parameters.AddWithValue("@ContactNumber", patient.getContactNumber());
+                command.Parameters.AddWithValue("@Bill", patient.getBill());
                 command.ExecuteNonQuery();
 
-                MessageBox.Show("Patient Registered Successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                resetFields();      
+
+                MessageBox.Show("Patient Registered Successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information); 
+                addToMedicalHistory(patient, conn, command);
+                occupyRoom(patient.getRoomNo(), conn, command); 
+                conn.Close();
+                resetFields();
+                getRoomNo();
             }
             catch (MySqlException ex)
             {
@@ -210,8 +242,48 @@ namespace ClinicSystem
             }
         }
 
+        private void addToMedicalHistory(Patient patient, MySqlConnection conn, MySqlCommand command) 
+        {
+            try
+            {
+                string query = "INSERT INTO medicalhistory (" +
+                    "PatientID, DoctorID, OperationCode, FrontDeskID) VALUES (" +
+                    "@PatientID, @DoctorId, @OperationCode, @FrontDeskID)";
+
+                command = new MySqlCommand(query, conn);
+
+                MySqlCommand getPatientIdCommand = new MySqlCommand("SELECT LAST_INSERT_ID()", conn);
+                int patientId = Convert.ToInt32(getPatientIdCommand.ExecuteScalar());
+                command.Parameters.AddWithValue("@PatientID", patientId);
+                command.Parameters.AddWithValue("@DoctorID", patient.doctorId());
+                command.Parameters.AddWithValue("@OperationCode", patient.getOperationCode());
+                command.Parameters.AddWithValue("@FrontDeskID", patient.getFrontdeskId());
+                command.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show("ERROR: " + ex.Message);
+            }
+        }
+
+        private void occupyRoom(int roomNo, MySqlConnection conn, MySqlCommand command)
+        {
+            try
+            {
+                string query = "UPDATE rooms SET Occupation = 'Occupied' WHERE RoomNo = @RoomNo";
+                command = new MySqlCommand(query, conn);
+                command.Parameters.AddWithValue("@RoomNo", roomNo);
+                command.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show("ERRdfgdfgOR: " + ex.Message);
+            }
+        }
+
         private void resetFields()
         {
+
             FirstName.Text = "";
             MiddleName.Text = "";
             LastName.Text = "";
@@ -224,11 +296,11 @@ namespace ClinicSystem
             PatientCondition.Text = "";
             ComboOperation.SelectedIndex = -1;
             ComboDoctor.SelectedIndex = -1;
-            MedicalHistory.Text = "";
             Bill.Text = "";
         }
         private Patient getPatient()
         {
+            int roomNo = int.Parse(ComboRoomNo.SelectedItem.ToString());
             string firstName = FirstName.Text.Trim();
             string middleName = MiddleName.Text.Trim(); ;
             string lastName = LastName.Text.Trim(); ;
@@ -236,7 +308,7 @@ namespace ClinicSystem
             if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(middleName)
                 || string.IsNullOrWhiteSpace(lastName) || string.IsNullOrWhiteSpace(address)
                 || string.IsNullOrWhiteSpace(Age.Text.Trim()) || string.IsNullOrWhiteSpace(Birthdate.Text.Trim())
-                || string.IsNullOrWhiteSpace(DateAdmitted.Text.Trim()) || string.IsNullOrWhiteSpace(ContactNumber.Text.Trim()))
+                || string.IsNullOrWhiteSpace(DateAdmitted.Text.Trim()))
             {
                 MessageBox.Show("Please Fill the fields.");
                 return null;
@@ -275,8 +347,8 @@ namespace ClinicSystem
                 return null;
             }
             birthDate = birthDate.Date;
-            int contactNumber;
-            if (!int.TryParse(ContactNumber.Text.Trim(), out contactNumber))
+            long contactNumber = 0;
+            if (!string.IsNullOrWhiteSpace(ContactNumber.Text) && !long.TryParse(ContactNumber.Text.Trim(), out contactNumber))
             {
                 MessageBox.Show("Enter Valid Contact Number.");
                 return null;
@@ -296,9 +368,9 @@ namespace ClinicSystem
                 return null;
             }
 
-            string SpecializedName = ComboOperation.SelectedItem.ToString();
-            int operationid = getOprationId(SpecializedName);
-            if (operationid == 0)
+            string operationName = ComboOperation.SelectedItem.ToString();
+            int oeprationCode = getOprationId(operationName);
+            if (oeprationCode == 0)
             {
                 MessageBox.Show("Invalid Operation.");
                 return null;
@@ -316,27 +388,26 @@ namespace ClinicSystem
                 MessageBox.Show("Enter Doctor Assigned.");
                 return null;
             }
-            string doctorAssigned = ComboDoctor.SelectedItem.ToString();
-            string medicalHistory = MedicalHistory.Text.Trim();
+           
             double bill = double.Parse(Bill.Text.Trim());
 
             return new Patient(
-                    firstName,
-                    middleName,
-                    lastName,
-                    address,
-                    gender,
-                    age,
-                    birthDate,
-                    contactNumber,
-                    dateAdmitted,
-                    condition,
-                    operationid,
-                    doctorAssigned,
-                    medicalHistory,
-                    bill
-            );
-
+                roomNo,
+                frontDesk.getId(),
+                doctorAssigned.getDoctorID(),
+                oeprationCode,
+                firstName,
+                middleName,
+                lastName,
+                age,
+                address,
+                gender,
+                condition,
+                birthDate,
+                dateAdmitted,
+                contactNumber,
+                bill
+                );
         }
 
         private void ComboDoctor_SelectedIndexChanged(object sender, EventArgs e)
