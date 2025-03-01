@@ -207,9 +207,9 @@ namespace ClinicSystem
                 conn.Open();
                 string query = "INSERT INTO patients (" +
                                     "RoomNo, FrontDeskID, DoctorID, OperationCode, FirstName, MiddleName, LastName, Age," +
-                                    "Address, Gender, PatientCondition, BirthDate, DateAdmitted, ContactNumber, Bill, Status) VALUES (" +
+                                    "Address, Gender, PatientCondition, BirthDate, ContactNumber, Bill, Status) VALUES (" +
                                     "@RoomNo, @FrontDeskID, @DoctorID, @OperationCode, @FirstName, @MiddleName, @LastName, @Age, @Address, " +
-                                    "@Gender, @PatientCondition, @BirthDate, @DateAdmitted, @ContactNumber, @Bill, @Status)";
+                                    "@Gender, @PatientCondition, @BirthDate, @ContactNumber, @Bill, @Status)";
 
                 MySqlCommand command = new MySqlCommand(query, conn);
                 command.Parameters.AddWithValue("@RoomNo", patient.getRoomNo());
@@ -224,17 +224,18 @@ namespace ClinicSystem
                 command.Parameters.AddWithValue("@Gender", patient.getGender());
                 command.Parameters.AddWithValue("@PatientCondition", patient.getCondition());
                 command.Parameters.AddWithValue("@BirthDate", patient.getBirthDate());
-                command.Parameters.AddWithValue("@DateAdmitted", patient.getDateAdmitted());
                 command.Parameters.AddWithValue("@ContactNumber", patient.getContactNumber());
                 command.Parameters.AddWithValue("@Bill", patient.getBill());
                 command.Parameters.AddWithValue("@Status", "Admitted");
                 command.ExecuteNonQuery();
+                MessageBox.Show("Patient Registered Successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 
-                MessageBox.Show("Patient Registered Successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information); 
-                
+                MySqlCommand xf = new MySqlCommand("SELECT LAST_INSERT_ID()", conn);
+                int patientID = Convert.ToInt32(xf.ExecuteScalar());
                 occupyRoom(patient.getRoomNo(), conn, command); 
                 conn.Close();
+                addToClinicHistory(patientID, patient.getDateAdmitted());
                 resetFields();
                 getRoomNo();
             }
@@ -248,29 +249,25 @@ namespace ClinicSystem
             }
         }
 
-        //private void addToMedicalHistory(Patient patient, MySqlConnection conn, MySqlCommand command) 
-        //{
-        //    try
-        //    {
-        //        string query = "INSERT INTO medicalhistory (" +
-        //            "PatientID, DoctorID, OperationCode, FrontDeskID) VALUES (" +
-        //            "@PatientID, @DoctorId, @OperationCode, @FrontDeskID)";
-
-        //        command = new MySqlCommand(query, conn);
-
-        //        MySqlCommand getPatientIdCommand = new MySqlCommand("SELECT LAST_INSERT_ID()", conn);
-        //        int patientId = Convert.ToInt32(getPatientIdCommand.ExecuteScalar());
-        //        command.Parameters.AddWithValue("@PatientID", patientId);
-        //        command.Parameters.AddWithValue("@DoctorID", patient.doctorId());
-        //        command.Parameters.AddWithValue("@OperationCode", patient.getOperationCode());
-        //        command.Parameters.AddWithValue("@FrontDeskID", patient.getFrontdeskId());
-        //        command.ExecuteNonQuery();
-        //    }
-        //    catch (MySqlException ex)
-        //    {
-        //        MessageBox.Show("ERROR: " + ex.Message);
-        //    }
-        //}
+        private void addToClinicHistory(int getPatientId, DateTime dateTime)
+        {
+            try
+            {
+                string driver = "server=localhost;username=root;pwd=root;database=clinicdb";
+                MySqlConnection conn = new MySqlConnection(driver);
+                conn.Open();
+                string query = "INSERT INTO clinichistory (PatientID, DateAdmitted) VALUES (@PatientID, @DateAdmitted)";
+                MySqlCommand command = new MySqlCommand(query, conn);
+                command.Parameters.AddWithValue("@PatientID", getPatientId);
+                command.Parameters.AddWithValue("@DateAdmitted",   dateTime.ToString("yyyy-MM-dd")  );
+                command.ExecuteNonQuery();
+                conn.Close();
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show("DB ERROR: " + ex.Message);
+            }
+        }
 
         private void occupyRoom(int roomNo, MySqlConnection conn, MySqlCommand command)
         {
