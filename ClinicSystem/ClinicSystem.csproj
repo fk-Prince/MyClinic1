@@ -146,10 +146,10 @@
     <Compile Include="AddPatient\RegisterPatient.Designer.cs">
       <DependentUpon>RegisterPatient.cs</DependentUpon>
     </Compile>
-    <Compile Include="ViewPatientsForm.cs">
+    <Compile Include="ViewPatients\ViewPatientsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ViewPatientsForm.Designer.cs">
+    <Compile Include="ViewPatients\ViewPatientsForm.Designer.cs">
       <DependentUpon>ViewPatientsForm.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="LoginForm\DoctorLoginForm.resx">
@@ -183,7 +183,7 @@
     <EmbeddedResource Include="AddPatient\RegisterPatient.resx">
       <DependentUpon>RegisterPatient.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ViewPatientsForm.resx">
+    <EmbeddedResource Include="ViewPatients\ViewPatientsForm.resx">
       <DependentUpon>ViewPatientsForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />

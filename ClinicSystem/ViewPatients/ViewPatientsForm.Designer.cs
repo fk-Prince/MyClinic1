@@ -34,6 +34,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.FlowPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.checkBoxAdmitted = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -93,12 +94,26 @@
             this.FlowPanel.Size = new System.Drawing.Size(877, 532);
             this.FlowPanel.TabIndex = 1;
             // 
+            // checkBoxAdmitted
+            // 
+            this.checkBoxAdmitted.AutoSize = true;
+            this.checkBoxAdmitted.Checked = true;
+            this.checkBoxAdmitted.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxAdmitted.Location = new System.Drawing.Point(86, 84);
+            this.checkBoxAdmitted.Name = "checkBoxAdmitted";
+            this.checkBoxAdmitted.Size = new System.Drawing.Size(111, 17);
+            this.checkBoxAdmitted.TabIndex = 2;
+            this.checkBoxAdmitted.Text = "Currently Admitted";
+            this.checkBoxAdmitted.UseVisualStyleBackColor = true;
+            this.checkBoxAdmitted.CheckedChanged += new System.EventHandler(this.checkBoxAdmitted_CheckedChanged);
+            // 
             // ViewPatientsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1041, 651);
+            this.Controls.Add(this.checkBoxAdmitted);
             this.Controls.Add(this.FlowPanel);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -108,6 +123,7 @@
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -119,5 +135,6 @@
         private System.Windows.Forms.TextBox searchPatientName;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.FlowLayoutPanel FlowPanel;
+        private System.Windows.Forms.CheckBox checkBoxAdmitted;
     }
 }
